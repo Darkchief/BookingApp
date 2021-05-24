@@ -1,0 +1,62 @@
+[
+  {
+    "company": "company",
+    "flightNumber": 123456,
+    "date": "2021-05-24",
+    "hour": "05:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "company",
+    "flightNumber": 123456,
+    "date": "2021-05-24",
+    "hour": "05:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "company",
+    "flightNumber": 123456,
+    "date": "2021-05-24",
+    "hour": "05:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "company",
+    "flightNumber": 123456,
+    "date": "2021-05-24",
+    "hour": "05:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "company",
+    "flightNumber": 123456,
+    "date": "2021-05-24",
+    "hour": "05:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "company",
+    "flightNumber": 123456,
+    "date": "2021-05-24",
+    "hour": "05:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  }
+]
