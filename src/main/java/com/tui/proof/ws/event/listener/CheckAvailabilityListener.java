@@ -2,7 +2,8 @@ package com.tui.proof.ws.event.listener;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tui.proof.ws.model.Flight;
+import com.tui.proof.ws.event.CheckAvailabilityEvent;
+import com.tui.proof.ws.model.availability.Flight;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

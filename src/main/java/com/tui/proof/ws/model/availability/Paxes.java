@@ -1,4 +1,4 @@
-package com.tui.proof.ws.model;
+package com.tui.proof.ws.model.availability;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -1,6 +1,6 @@
-package com.tui.proof.ws.event.listener;
+package com.tui.proof.ws.event;
 
-import com.tui.proof.ws.model.Flight;
+import com.tui.proof.ws.model.availability.Flight;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
