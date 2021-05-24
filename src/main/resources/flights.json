@@ -1,7 +1,37 @@
 [
   {
-    "company": "company",
-    "flightNumber": 123456,
+    "company": "Ryanair",
+    "flightNumber": 405421,
+    "date": "2021-05-24",
+    "hour": "07:35",
+    "price": {
+      "amount": 150.00,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "EasyJet",
+    "flightNumber": 120954,
+    "date": "2021-05-24",
+    "hour": "10:22",
+    "price": {
+      "amount": 156.45,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "Lufthansa",
+    "flightNumber": 325677,
+    "date": "2021-05-24",
+    "hour": "07:41",
+    "price": {
+      "amount": 123456.65,
+      "currency": "EUR"
+    }
+  },
+  {
+    "company": "Qatar Airways",
+    "flightNumber": 8776564,
     "date": "2021-05-24",
     "hour": "05:41",
     "price": {
@@ -10,50 +40,20 @@
     }
   },
   {
-    "company": "company",
-    "flightNumber": 123456,
+    "company": "United Airlines",
+    "flightNumber": 223144,
     "date": "2021-05-24",
-    "hour": "05:41",
+    "hour": "08:23",
     "price": {
       "amount": 123456.65,
       "currency": "EUR"
     }
   },
   {
-    "company": "company",
+    "company": "Singapore Airlines",
     "flightNumber": 123456,
     "date": "2021-05-24",
-    "hour": "05:41",
-    "price": {
-      "amount": 123456.65,
-      "currency": "EUR"
-    }
-  },
-  {
-    "company": "company",
-    "flightNumber": 123456,
-    "date": "2021-05-24",
-    "hour": "05:41",
-    "price": {
-      "amount": 123456.65,
-      "currency": "EUR"
-    }
-  },
-  {
-    "company": "company",
-    "flightNumber": 123456,
-    "date": "2021-05-24",
-    "hour": "05:41",
-    "price": {
-      "amount": 123456.65,
-      "currency": "EUR"
-    }
-  },
-  {
-    "company": "company",
-    "flightNumber": 123456,
-    "date": "2021-05-24",
-    "hour": "05:41",
+    "hour": "09:00",
     "price": {
       "amount": 123456.65,
       "currency": "EUR"
