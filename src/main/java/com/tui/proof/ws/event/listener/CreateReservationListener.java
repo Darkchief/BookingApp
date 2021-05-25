@@ -1,6 +1,6 @@
 package com.tui.proof.ws.event.listener;
 
-import com.tui.proof.ws.event.AddNewReservationEvent;
+import com.tui.proof.ws.event.CreateReservationEvent;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +12,11 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class AddNewReservationListener {
+public class CreateReservationListener {
 
     @Async
     @EventListener
-    void handleNewReservationEvent(AddNewReservationEvent event) {
+    void handleNewReservationEvent(CreateReservationEvent event) {
         log.info("Listen to the newReservationEvent");
         Map<String, Reservation> reservationMap = event.getReservationMap();
         HolderRequest holderData = event.getHolderData();

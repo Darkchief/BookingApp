@@ -7,6 +7,7 @@ import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
 import org.springframework.http.ResponseEntity;
 
+import javax.xml.ws.Response;
 import java.util.List;
 
 /**
@@ -14,13 +15,18 @@ import java.util.List;
  */
 public interface BookingProvider {
 
-    ResponseEntity<String> test();
-
     ResponseEntity<List<Flight>> checkAvailability(AvailabilityRequest request);
 
-    ResponseEntity<Void> createNewReservation(HolderRequest request);
+    ResponseEntity<Void> createReservation(HolderRequest request);
 
     ResponseEntity<Void> addFlight(FlightRequest request);
 
+    ResponseEntity<Void> deleteFlight(FlightRequest request);
+
     ResponseEntity<Reservation> reservationDetails(String email);
+
+    ResponseEntity<Void> deleteReservation(String email);
+
+    ResponseEntity<Void> confirmReservation(String email);
+
 }

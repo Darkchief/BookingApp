@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -16,16 +17,23 @@ public class AddFlightListener {
 
     @Async
     @EventListener
-    void handleAddNewFlightEvent(AddFlightEvent event) {
-        log.info("Listen to the newReservationEvent");
+    void handleAddFlightEvent(AddFlightEvent event) {
+        log.info("Listen to the addFlightEvent");
         String email = event.getEmail();
         Map<String, Reservation> reservationMap = event.getReservationMap();
-        Flight flightToAdd = event.getFlight();
 
         if (!reservationMap.containsKey(email)) {
             log.info("Email {} does not contains a reservation, unable to add the flight", email);
         } else {
-            reservationMap.computeIfPresent(email, (k, v) -> v).getFlights().add(flightToAdd);
+            Optional<Flight> flightToAdd = event.getAvailableFlights().stream()
+                    .filter(flight -> event.getFlightNumber().equals(flight.getFlightNumber()))
+                    .findFirst();
+
+            if(flightToAdd.isPresent()) {
+                reservationMap.computeIfPresent(email, (k, v) -> v).getFlights().add(flightToAdd.get());
+            } else {
+                log.info("There are no available flight with number {}", event.getFlightNumber());
+            }
         }
     }
 }

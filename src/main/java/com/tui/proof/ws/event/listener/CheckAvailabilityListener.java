@@ -38,7 +38,7 @@ public class CheckAvailabilityListener {
             e.printStackTrace();
         }
 
-        log.info("Available flights retrieved: {}", flights);
+        log.debug("Available flights retrieved: {}", flights);
         event.getFlights().addAll(flights);
     }
 

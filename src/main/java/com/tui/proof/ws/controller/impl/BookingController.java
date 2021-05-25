@@ -28,13 +28,6 @@ public class BookingController implements BookingProvider {
     private BookingService bookingService;
 
     @Override
-    @PostMapping(value = "/test")
-    public ResponseEntity<String> test() {
-        log.info("Booking Controller");
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.test());
-    }
-
-    @Override
     @PostMapping(value = "/checkAvailability")
     public ResponseEntity<List<Flight>> checkAvailability(@RequestBody AvailabilityRequest request) {
         log.info("Availability Request: {}", request);
@@ -44,15 +37,15 @@ public class BookingController implements BookingProvider {
     }
 
     @Override
-    @PostMapping(value = "/addReservation")
-    public ResponseEntity<Void> createNewReservation(@RequestBody HolderRequest request) {
+    @PutMapping(value = "/createReservation")
+    public ResponseEntity<Void> createReservation(@RequestBody HolderRequest request) {
         log.info("Start createNewReservation");
         bookingService.createNewReservation(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
-    @PostMapping(value = "/addFlight")
+    @PutMapping(value = "/addFlight")
     public ResponseEntity<Void> addFlight(@RequestBody FlightRequest request) {
         log.info("Start addFlight");
         bookingService.addFlight(request);
@@ -60,9 +53,30 @@ public class BookingController implements BookingProvider {
     }
 
     @Override
-    @GetMapping(value = "/details")
-    public ResponseEntity<Reservation> reservationDetails(@RequestParam String email) {
+    @DeleteMapping(value = "/deleteFlight")
+    public ResponseEntity<Void> deleteFlight(@RequestBody FlightRequest request) {
+        bookingService.deleteFlight(request);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    @GetMapping(value = "/details/{email}")
+    public ResponseEntity<Reservation> reservationDetails(@PathVariable("email") String email) {
         return ResponseEntity.status(HttpStatus.OK).body(bookingService.retrieveReservationDetails(email));
+    }
+
+    @Override
+    @DeleteMapping(value = "/deleteReservation/{email}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable("email") String email) {
+        bookingService.deleteReservation(email);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    @PostMapping(value = "/confirmReservation/{email}")
+    public ResponseEntity<Void> confirmReservation(@PathVariable("email") String email) {
+        bookingService.confirmReservation(email);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
 

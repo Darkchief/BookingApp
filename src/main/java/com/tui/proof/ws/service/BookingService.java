@@ -10,13 +10,17 @@ import java.util.List;
 
 public interface BookingService {
 
-    String test();
-
     List<Flight> checkAvailability(AvailabilityRequest request);
 
     void createNewReservation(HolderRequest request);
 
     void addFlight(FlightRequest request);
 
+    void deleteFlight(FlightRequest request);
+
     Reservation retrieveReservationDetails(String email);
+
+    void deleteReservation(String email);
+
+    void confirmReservation(String email);
 }
