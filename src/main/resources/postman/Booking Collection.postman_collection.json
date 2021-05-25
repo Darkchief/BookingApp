@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "591dd655-3bc5-428b-830d-ca4522c462d8",
+		"name": "Booking Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "checkAvailabilty",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originAirport\": \"MXP\",\r\n    \"destinationAirport\": \"BGY\",\r\n    \"from\": \"2021-06-30\",\r\n    \"to\": \"2021-07-05\",\r\n    \"paxes\": {\r\n        \"infants\": 0,\r\n        \"children\": 2,\r\n        \"adults\": 1\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/checkAvailability",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"checkAvailability"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addReservation",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"holder\" :{\r\n        \"name\": \"Bruno\",\r\n        \"lastName\": \"Selmi\",\r\n        \"address\" : \"Via Zurigo\",\r\n        \"postalCode\" : \"20147\",\r\n        \"country\" : \"Italy\",\r\n        \"email\" : \"bruno.selmi92@gmail.com\",\r\n        \"telephones\" : [\"3245654767, 3476798343\"]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/createReservation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"createReservation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addFlight",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"bruno.selmi92@gmail.com\",\r\n    \"flightNumber\": \"405421\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/addFlight",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"addFlight"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteFlight",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"bruno.selmi92@gmail.com\",\r\n    \"flightNumber\": \"405421\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/deleteFlight/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"deleteFlight",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/details/bruno.selmi92@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"details",
+						"bruno.selmi92@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteReservation",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/deleteReservation/bruno.selmi92@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"deleteReservation",
+						"bruno.selmi92@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirmReservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9002/book/confirmReservation/bruno.selmi92@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9002",
+					"path": [
+						"book",
+						"confirmReservation",
+						"bruno.selmi92@gmail.com"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
