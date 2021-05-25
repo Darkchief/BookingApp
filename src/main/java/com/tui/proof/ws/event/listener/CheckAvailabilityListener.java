@@ -23,17 +23,15 @@ public class CheckAvailabilityListener {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Value("classpath:flights.json")
-    private Resource flightsFile;
-
     @Async
     @EventListener
     void handleAvailabilityEvent(CheckAvailabilityEvent event) {
         log.info("Listen to the availabilityEvent");
         List<Flight> flights = new ArrayList<>();
         try {
-            flights = objectMapper.readValue(flightsFile.getFile(), new TypeReference<List<Flight>>() {
-            });
+            flights = objectMapper.readValue(this.getClass().getResourceAsStream("/flights.json")
+                    , new TypeReference<List<Flight>>() {
+                    });
         } catch (IOException e) {
             e.printStackTrace();
         }
