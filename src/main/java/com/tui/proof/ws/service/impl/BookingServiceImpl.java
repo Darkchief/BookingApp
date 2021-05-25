@@ -7,6 +7,8 @@ import com.tui.proof.ws.model.booking.FlightRequest;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
 import com.tui.proof.ws.service.BookingService;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Data
 @Slf4j
 @Service
+@Accessors(chain = true)
 public class BookingServiceImpl implements BookingService {
 
     @Autowired

@@ -13,7 +13,7 @@ import java.util.Map;
 public class AddFlightEvent {
 
     private String email;
-    private String flightNumber;
+    private Long flightNumber;
     private List<Flight> availableFlights;
     private Map<String, Reservation> reservationMap;
 }

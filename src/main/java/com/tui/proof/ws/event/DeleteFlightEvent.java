@@ -12,6 +12,6 @@ import java.util.Map;
 public class DeleteFlightEvent {
 
     private String email;
-    private String flightNumber;
+    private Long flightNumber;
     private Map<String, Reservation> reservationMap;
 }

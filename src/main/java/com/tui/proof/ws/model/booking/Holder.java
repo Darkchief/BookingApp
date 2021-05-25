@@ -1,10 +1,12 @@
 package com.tui.proof.ws.model.booking;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @Data
+@Accessors(chain = true)
 public class Holder {
 
     private String name;
