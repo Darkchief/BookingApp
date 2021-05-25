@@ -1,15 +1,19 @@
 package com.tui.proof.ws.service.impl;
 
 import com.tui.proof.ws.event.*;
+import com.tui.proof.ws.exception.AvailabilityRequestNotValidException;
 import com.tui.proof.ws.model.availability.AvailabilityRequest;
 import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
 import com.tui.proof.ws.service.BookingService;
+import com.tui.proof.ws.validation.RequestValidator;
+import com.tui.proof.ws.validation.impl.AvailabilityRequestValidator;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -35,7 +39,12 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Flight> checkAvailability(AvailabilityRequest request) {
-        //TODO: Validation
+        RequestValidator requestValidator = new AvailabilityRequestValidator();
+        String errorMessage = requestValidator.validate(request);
+        if(StringUtils.isNotBlank(errorMessage)) {
+            throw new AvailabilityRequestNotValidException(errorMessage);
+        }
+
         if (CollectionUtils.isEmpty(flights)) {
             flights = new ArrayList<>();
         }
