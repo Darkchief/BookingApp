@@ -2,6 +2,7 @@ package com.tui.proof.ws.service.impl;
 
 import com.tui.proof.ws.event.*;
 import com.tui.proof.ws.exception.*;
+import com.tui.proof.ws.model.availability.AvailabilityFlight;
 import com.tui.proof.ws.model.availability.AvailabilityRequest;
 import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
@@ -19,8 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
 
     private Map<String, Reservation> reservationMap = new HashMap();
 
-    private List<Flight> flights;
+    private AvailabilityFlight availabilityFlight = new AvailabilityFlight();
 
     @Override
     public List<Flight> checkAvailability(AvailabilityRequest request) {
@@ -49,12 +50,13 @@ public class BookingServiceImpl implements BookingService {
             throw new AvailabilityRequestNotValidException(message);
         }
 
-        if (CollectionUtils.isEmpty(flights)) {
-            flights = new ArrayList<>();
-        }
+        List<Flight> flights = new ArrayList<>();
+        availabilityFlight.setExpirationTime(LocalDateTime.now().plusMinutes(15))
+                .setFlights(flights);
+
         CheckAvailabilityEvent event = new CheckAvailabilityEvent().setFlights(flights);
         publisher.publishEvent(event);
-        return flights;
+        return availabilityFlight.getFlights();
     }
 
     @Override
@@ -76,9 +78,12 @@ public class BookingServiceImpl implements BookingService {
         if (StringUtils.isNotBlank(message)) {
             throw new FlightRequestNotValidException(message);
         }
+
+        availabilityFlightExpiration();
+
         AddFlightEvent event = new AddFlightEvent()
                 .setEmail(request.getEmail())
-                .setAvailableFlights(flights)
+                .setAvailableFlights(availabilityFlight.getFlights())
                 .setReservationMap(reservationMap)
                 .setFlightNumber(request.getFlightNumber());
         publisher.publishEvent(event);
@@ -129,13 +134,23 @@ public class BookingServiceImpl implements BookingService {
             throw new EmailNotValidException("Email must not be blank");
         }
 
+        availabilityFlightExpiration();
+
         if (!reservationMap.containsKey(email)) {
             throw new ReservationNotExistException(email);
         }
 
         ConfirmReservationEvent event = new ConfirmReservationEvent()
                 .setEmail(email)
-                .setReservationMap(reservationMap);
+                .setReservationMap(reservationMap)
+                .setAvailabilityFlight(availabilityFlight);
         publisher.publishEvent(event);
+    }
+
+    private void availabilityFlightExpiration() {
+        if (availabilityFlight.getExpirationTime() == null
+                || LocalDateTime.now().isAfter(availabilityFlight.getExpirationTime())) {
+            throw new AvailabilityFlightExpiredException("The availability information are expired");
+        }
     }
 }

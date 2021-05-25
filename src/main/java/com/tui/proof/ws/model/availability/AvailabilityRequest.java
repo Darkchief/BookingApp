@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Data
 @Accessors(chain = true)
-@ConfigurationProperties("app")
 public class AvailabilityRequest {
 
     private String originAirport;

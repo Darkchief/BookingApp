@@ -61,6 +61,12 @@ public class BookingControllerAdvice {
                 HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {AvailabilityFlightExpiredException.class})
+    public ResponseEntity<String> handleAvailabilityFlightExpiredException(AvailabilityFlightExpiredException ex) {
+        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("%s", ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.error("DateTimeParseException: {}", ex.getMessage());

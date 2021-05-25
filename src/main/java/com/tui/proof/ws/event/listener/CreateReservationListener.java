@@ -16,13 +16,13 @@ public class CreateReservationListener {
 
     @Async
     @EventListener
-    void handleNewReservationEvent(CreateReservationEvent event) {
+    void handleCreateReservationEvent(CreateReservationEvent event) {
         log.info("Listen to the createReservationEvent");
         Map<String, Reservation> reservationMap = event.getReservationMap();
         HolderRequest holderData = event.getHolderData();
         String email = holderData.getHolder().getEmail();
         if (reservationMap.containsKey(email)) {
-            log.info("Email {} already contains a reservation, creating a new one", email);
+            log.info("Email {} already has a reservation, creating a new one", email);
         }
         reservationMap.put(email, new Reservation()
                 .setHolder(holderData.getHolder()));
