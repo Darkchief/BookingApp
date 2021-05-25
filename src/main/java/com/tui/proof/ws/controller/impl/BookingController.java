@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,16 +31,21 @@ public class BookingController implements BookingProvider {
 
     @Override
     @PostMapping(value = "/checkAvailability")
-    public ResponseEntity<List<Flight>> checkAvailability(@RequestBody AvailabilityRequest request) {
+    public ResponseEntity<List<Flight>> checkAvailability(HttpServletRequest httpRequest, @RequestBody AvailabilityRequest request) {
         log.info("Availability Request: {}", request);
-
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.checkAvailability(request));
-
+        ResponseEntity<List<Flight>> response;
+        if (isUserLogged(httpRequest)) {
+            httpRequest.getHeader("Username");
+            response = ResponseEntity.status(HttpStatus.OK).body(bookingService.checkAvailability(request));
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ArrayList<>());
+        }
+        return response;
     }
 
     @Override
     @PutMapping(value = "/createReservation")
-    public ResponseEntity<Void> createReservation(@RequestBody HolderRequest request) {
+    public ResponseEntity<Void> createReservation(HttpServletRequest httpRequest, @RequestBody HolderRequest request) {
         log.info("Start createNewReservation");
         bookingService.createNewReservation(request);
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -46,7 +53,7 @@ public class BookingController implements BookingProvider {
 
     @Override
     @PutMapping(value = "/addFlight")
-    public ResponseEntity<Void> addFlight(@RequestBody FlightRequest request) {
+    public ResponseEntity<Void> addFlight(HttpServletRequest httpRequest, @RequestBody FlightRequest request) {
         log.info("Start addFlight");
         bookingService.addFlight(request);
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -54,29 +61,33 @@ public class BookingController implements BookingProvider {
 
     @Override
     @DeleteMapping(value = "/deleteFlight")
-    public ResponseEntity<Void> deleteFlight(@RequestBody FlightRequest request) {
+    public ResponseEntity<Void> deleteFlight(HttpServletRequest httpRequest, @RequestBody FlightRequest request) {
         bookingService.deleteFlight(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
     @GetMapping(value = "/details/{email}")
-    public ResponseEntity<Reservation> reservationDetails(@PathVariable("email") String email) {
+    public ResponseEntity<Reservation> reservationDetails(HttpServletRequest httpRequest, @PathVariable("email") String email) {
         return ResponseEntity.status(HttpStatus.OK).body(bookingService.retrieveReservationDetails(email));
     }
 
     @Override
     @DeleteMapping(value = "/deleteReservation/{email}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable("email") String email) {
+    public ResponseEntity<Void> deleteReservation(HttpServletRequest httpRequest, @PathVariable("email") String email) {
         bookingService.deleteReservation(email);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
     @PostMapping(value = "/confirmReservation/{email}")
-    public ResponseEntity<Void> confirmReservation(@PathVariable("email") String email) {
+    public ResponseEntity<Void> confirmReservation(HttpServletRequest httpRequest, @PathVariable("email") String email) {
         bookingService.confirmReservation(email);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    private boolean isUserLogged(HttpServletRequest httpRequest) {
+        return bookingService.isUserLogged(httpRequest.getHeader("username"), httpRequest.getHeader("password"));
     }
 }
 

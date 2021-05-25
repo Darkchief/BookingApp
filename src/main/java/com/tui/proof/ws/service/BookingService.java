@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface BookingService {
 
+    boolean isUserLogged(String username, String password);
+
     List<Flight> checkAvailability(AvailabilityRequest request);
 
     void createNewReservation(HolderRequest request);

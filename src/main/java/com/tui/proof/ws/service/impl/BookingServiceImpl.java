@@ -18,6 +18,7 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,13 @@ import java.util.Map;
 @Accessors(chain = true)
 public class BookingServiceImpl implements BookingService {
 
+    @Value("${user.username}")
+    private String username;
+
+    @Value("${user.password}")
+    private String password;
+
+
     @Autowired
     private ApplicationEventPublisher publisher;
 
@@ -42,6 +50,14 @@ public class BookingServiceImpl implements BookingService {
     private Map<String, Reservation> reservationMap = new HashMap();
 
     private AvailabilityFlight availabilityFlight = new AvailabilityFlight();
+
+    @Override
+    public boolean isUserLogged(String loginUsername, String loginPassword) {
+        if (username.equals(loginUsername) && password.equals(loginPassword)) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public List<Flight> checkAvailability(AvailabilityRequest request) {
