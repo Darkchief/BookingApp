@@ -56,6 +56,12 @@ public class BookingServiceImpl implements BookingService {
 
         CheckAvailabilityEvent event = new CheckAvailabilityEvent().setFlights(flights);
         publisher.publishEvent(event);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return availabilityFlight.getFlights();
     }
 
@@ -133,12 +139,11 @@ public class BookingServiceImpl implements BookingService {
         if (StringUtils.isBlank(email)) {
             throw new EmailNotValidException("Email must not be blank");
         }
-
-        availabilityFlightExpiration();
-
         if (!reservationMap.containsKey(email)) {
             throw new ReservationNotExistException(email);
         }
+
+        availabilityFlightExpiration();
 
         ConfirmReservationEvent event = new ConfirmReservationEvent()
                 .setEmail(email)
