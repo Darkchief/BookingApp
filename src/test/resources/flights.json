@@ -1,0 +1,12 @@
+[
+  {
+    "company": "Ryanair",
+    "flightNumber": 405421,
+    "date": "2021-05-24",
+    "hour": "07:35",
+    "price": {
+      "amount": 150.00,
+      "currency": "EUR"
+    }
+  }
+]

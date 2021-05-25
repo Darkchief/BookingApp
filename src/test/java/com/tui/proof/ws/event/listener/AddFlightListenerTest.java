@@ -24,7 +24,7 @@ class AddFlightListenerTest {
                 .setEmail(notValidEmail)
                 .setFlightNumber(123456L)
                 .setReservationMap(createReservationMap())
-                .setAvailableFlights(createAvailableFlightList());
+                .setAvailableFlights(List.of(new Flight().setFlightNumber(123456L)));
 
         AddFlightListener listener = new AddFlightListener();
 
@@ -55,13 +55,5 @@ class AddFlightListenerTest {
                         .setEmail("mario.rossi@gmail.com")
                         .setTelephones(new ArrayList<>())));
         return map;
-    }
-
-    private List<Flight> createAvailableFlightList() {
-        List<Flight> flights = new ArrayList<>();
-        flights.add(new Flight()
-                .setFlightNumber(123456L));
-
-        return flights;
     }
 }
