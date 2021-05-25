@@ -1,7 +1,6 @@
 package com.tui.proof.ws.controller.impl;
 
-import com.tui.proof.ws.exception.AvailabilityRequestNotValidException;
-import com.tui.proof.ws.exception.HolderRequestNotValidException;
+import com.tui.proof.ws.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +37,33 @@ public class BookingControllerAdvice {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        log.error("DateTimeParseException: {}", ex.getMessage());
-        return new ResponseEntity<>("The dates in the requests must follow the pattern: yyyy-MM-dd",
+    @ExceptionHandler(value = {FlightRequestNotValidException.class})
+    public ResponseEntity<String> handleFlightRequestNotValidException(FlightRequestNotValidException ex) {
+        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
+                ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {EmailNotValidException.class})
+    public ResponseEntity<String> handleEmailNotValidException(EmailNotValidException ex) {
+        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
+                ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
 
+    @ExceptionHandler(value = {ReservationNotExistException.class})
+    public ResponseEntity<String> handleReservationNotExistException(ReservationNotExistException ex) {
+        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("There are no reservation with email: %s",
+                ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        log.error("DateTimeParseException: {}", ex.getMessage());
+        return new ResponseEntity<>("The request cannot be parsed", HttpStatus.BAD_REQUEST);
+    }
 }

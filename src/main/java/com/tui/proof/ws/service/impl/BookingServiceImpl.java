@@ -1,8 +1,7 @@
 package com.tui.proof.ws.service.impl;
 
 import com.tui.proof.ws.event.*;
-import com.tui.proof.ws.exception.AvailabilityRequestNotValidException;
-import com.tui.proof.ws.exception.HolderRequestNotValidException;
+import com.tui.proof.ws.exception.*;
 import com.tui.proof.ws.model.availability.AvailabilityRequest;
 import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
@@ -11,6 +10,7 @@ import com.tui.proof.ws.model.booking.Reservation;
 import com.tui.proof.ws.service.BookingService;
 import com.tui.proof.ws.validation.RequestValidatorFactory;
 import com.tui.proof.ws.validation.impl.AvailabilityRequestValidator;
+import com.tui.proof.ws.validation.impl.FlightRequestValidator;
 import com.tui.proof.ws.validation.impl.HolderRequestValidator;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -72,7 +72,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void addFlight(FlightRequest request) {
-        //TODO: Validation
+        String message = validatorFactory.getValidators().get(FlightRequestValidator.class).validate(request);
+        if (StringUtils.isNotBlank(message)) {
+            throw new FlightRequestNotValidException(message);
+        }
         AddFlightEvent event = new AddFlightEvent()
                 .setEmail(request.getEmail())
                 .setAvailableFlights(flights)
@@ -83,7 +86,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void deleteFlight(FlightRequest request) {
-        //TODO: Validation
+        String message = validatorFactory.getValidators().get(FlightRequestValidator.class).validate(request);
+        if (StringUtils.isNotBlank(message)) {
+            throw new FlightRequestNotValidException(message);
+        }
+
         DeleteFlightEvent event = new DeleteFlightEvent()
                 .setEmail(request.getEmail())
                 .setReservationMap(reservationMap)
@@ -93,13 +100,23 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Reservation retrieveReservationDetails(String email) {
-        //TODO: Validation
+        if (StringUtils.isBlank(email)) {
+            throw new EmailNotValidException("Email must not be blank");
+        }
+
+        if (!reservationMap.containsKey(email)) {
+            throw new ReservationNotExistException(email);
+        }
+
         return reservationMap.get(email);
     }
 
     @Override
     public void deleteReservation(String email) {
-        //TODO: Validation
+        if (StringUtils.isBlank(email)) {
+            throw new EmailNotValidException("Email must not be blank");
+        }
+
         DeleteReservationEvent event = new DeleteReservationEvent()
                 .setEmail(email)
                 .setReservationMap(reservationMap);
@@ -108,7 +125,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void confirmReservation(String email) {
-        //TODO: Validation
+        if (StringUtils.isBlank(email)) {
+            throw new EmailNotValidException("Email must not be blank");
+        }
+
+        if (!reservationMap.containsKey(email)) {
+            throw new ReservationNotExistException(email);
+        }
+
         ConfirmReservationEvent event = new ConfirmReservationEvent()
                 .setEmail(email)
                 .setReservationMap(reservationMap);

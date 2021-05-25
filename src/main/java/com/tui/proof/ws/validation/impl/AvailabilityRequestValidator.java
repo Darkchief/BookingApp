@@ -6,8 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public class AvailabilityRequestValidator implements RequestValidator<AvailabilityRequest> {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
-
     @Override
     public String validate(AvailabilityRequest request) {
 

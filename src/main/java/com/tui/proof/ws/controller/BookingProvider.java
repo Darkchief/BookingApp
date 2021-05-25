@@ -7,7 +7,6 @@ import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
 import org.springframework.http.ResponseEntity;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 /**

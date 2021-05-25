@@ -17,7 +17,7 @@ public class CreateReservationListener {
     @Async
     @EventListener
     void handleNewReservationEvent(CreateReservationEvent event) {
-        log.info("Listen to the newReservationEvent");
+        log.info("Listen to the createReservationEvent");
         Map<String, Reservation> reservationMap = event.getReservationMap();
         HolderRequest holderData = event.getHolderData();
         String email = holderData.getHolder().getEmail();
@@ -27,6 +27,4 @@ public class CreateReservationListener {
         reservationMap.put(email, new Reservation()
                 .setHolder(holderData.getHolder()));
     }
-
-
 }
