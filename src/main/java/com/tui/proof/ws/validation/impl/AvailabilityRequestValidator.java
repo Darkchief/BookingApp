@@ -1,13 +1,8 @@
 package com.tui.proof.ws.validation.impl;
 
-import com.sun.javafx.binding.StringFormatter;
 import com.tui.proof.ws.model.availability.AvailabilityRequest;
 import com.tui.proof.ws.validation.RequestValidator;
 import org.apache.commons.lang3.StringUtils;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class AvailabilityRequestValidator implements RequestValidator<AvailabilityRequest> {
 

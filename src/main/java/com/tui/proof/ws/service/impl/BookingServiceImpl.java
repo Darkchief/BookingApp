@@ -2,14 +2,16 @@ package com.tui.proof.ws.service.impl;
 
 import com.tui.proof.ws.event.*;
 import com.tui.proof.ws.exception.AvailabilityRequestNotValidException;
+import com.tui.proof.ws.exception.HolderRequestNotValidException;
 import com.tui.proof.ws.model.availability.AvailabilityRequest;
 import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
 import com.tui.proof.ws.service.BookingService;
-import com.tui.proof.ws.validation.RequestValidator;
+import com.tui.proof.ws.validation.RequestValidatorFactory;
 import com.tui.proof.ws.validation.impl.AvailabilityRequestValidator;
+import com.tui.proof.ws.validation.impl.HolderRequestValidator;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +35,18 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
+    @Autowired
+    private RequestValidatorFactory validatorFactory;
+
     private Map<String, Reservation> reservationMap = new HashMap();
 
     private List<Flight> flights;
 
     @Override
     public List<Flight> checkAvailability(AvailabilityRequest request) {
-        RequestValidator requestValidator = new AvailabilityRequestValidator();
-        String errorMessage = requestValidator.validate(request);
-        if(StringUtils.isNotBlank(errorMessage)) {
-            throw new AvailabilityRequestNotValidException(errorMessage);
+        String message = validatorFactory.getValidators().get(AvailabilityRequestValidator.class).validate(request);
+        if (StringUtils.isNotBlank(message)) {
+            throw new AvailabilityRequestNotValidException(message);
         }
 
         if (CollectionUtils.isEmpty(flights)) {
@@ -55,7 +59,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void createNewReservation(HolderRequest request) {
-        //TODO: Validation
+        String message = validatorFactory.getValidators().get(HolderRequestValidator.class).validate(request);
+        if (StringUtils.isNotBlank(message)) {
+            throw new HolderRequestNotValidException(message);
+        }
+
         CreateReservationEvent event = new CreateReservationEvent()
                 .setReservationMap(reservationMap)
                 .setHolderData(request);

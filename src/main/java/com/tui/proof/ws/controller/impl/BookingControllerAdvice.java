@@ -1,6 +1,7 @@
 package com.tui.proof.ws.controller.impl;
 
 import com.tui.proof.ws.exception.AvailabilityRequestNotValidException;
+import com.tui.proof.ws.exception.HolderRequestNotValidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,14 @@ public class BookingControllerAdvice {
 
     @ExceptionHandler(value = {AvailabilityRequestNotValidException.class})
     public ResponseEntity<String> handleAvailabilityRequestNotValidException(AvailabilityRequestNotValidException ex) {
+        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
+                ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {HolderRequestNotValidException.class})
+    public ResponseEntity<String> handleHolderRequestNotValidException(HolderRequestNotValidException ex) {
         log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
                 ex.getMessage()),
