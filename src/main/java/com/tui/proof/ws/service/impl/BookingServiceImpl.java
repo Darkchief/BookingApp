@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
         if (username.equals(loginUsername) && password.equals(loginPassword)) {
             return true;
         }
-        return false;
+        throw new UnauthorizedException("Invalid Username or Password");
     }
 
     @Override

@@ -35,8 +35,8 @@ public class BookingController implements BookingProvider {
         log.info("Availability Request: {}", request);
         ResponseEntity<List<Flight>> response;
         if (isUserLogged(httpRequest)) {
-            httpRequest.getHeader("Username");
-            response = ResponseEntity.status(HttpStatus.OK).body(bookingService.checkAvailability(request));
+            List<Flight> flights = bookingService.checkAvailability(request);
+            response = ResponseEntity.status(HttpStatus.OK).body(flights);
         } else {
             response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ArrayList<>());
         }
@@ -47,43 +47,84 @@ public class BookingController implements BookingProvider {
     @PutMapping(value = "/createReservation")
     public ResponseEntity<Void> createReservation(HttpServletRequest httpRequest, @RequestBody HolderRequest request) {
         log.info("Start createNewReservation");
-        bookingService.createNewReservation(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        ResponseEntity<Void> response;
+        if (isUserLogged(httpRequest)) {
+            bookingService.createNewReservation(request);
+            response = ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return response;
     }
 
     @Override
     @PutMapping(value = "/addFlight")
     public ResponseEntity<Void> addFlight(HttpServletRequest httpRequest, @RequestBody FlightRequest request) {
         log.info("Start addFlight");
-        bookingService.addFlight(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        ResponseEntity<Void> response;
+        if (isUserLogged(httpRequest)) {
+            bookingService.addFlight(request);
+            response = ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return response;
     }
 
     @Override
     @DeleteMapping(value = "/deleteFlight")
     public ResponseEntity<Void> deleteFlight(HttpServletRequest httpRequest, @RequestBody FlightRequest request) {
-        bookingService.deleteFlight(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        log.info("Start addFlight");
+        ResponseEntity<Void> response;
+        if (isUserLogged(httpRequest)) {
+            bookingService.deleteFlight(request);
+            response = ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return response;
     }
 
     @Override
     @GetMapping(value = "/details/{email}")
     public ResponseEntity<Reservation> reservationDetails(HttpServletRequest httpRequest, @PathVariable("email") String email) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.retrieveReservationDetails(email));
+        log.info("Start addFlight");
+        ResponseEntity<Reservation> response;
+        if (isUserLogged(httpRequest)) {
+            Reservation reservation = bookingService.retrieveReservationDetails(email);
+            response = ResponseEntity.status(HttpStatus.OK).body(reservation);
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return response;
     }
 
     @Override
     @DeleteMapping(value = "/deleteReservation/{email}")
     public ResponseEntity<Void> deleteReservation(HttpServletRequest httpRequest, @PathVariable("email") String email) {
-        bookingService.deleteReservation(email);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        log.info("Start addFlight");
+        ResponseEntity<Void> response;
+        if (isUserLogged(httpRequest)) {
+            bookingService.deleteReservation(email);
+            response = ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return response;
     }
 
     @Override
     @PostMapping(value = "/confirmReservation/{email}")
     public ResponseEntity<Void> confirmReservation(HttpServletRequest httpRequest, @PathVariable("email") String email) {
-        bookingService.confirmReservation(email);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        log.info("Start addFlight");
+        ResponseEntity<Void> response;
+        if (isUserLogged(httpRequest)) {
+            bookingService.confirmReservation(email);
+            response = ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return response;
     }
 
     private boolean isUserLogged(HttpServletRequest httpRequest) {

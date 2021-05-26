@@ -56,7 +56,7 @@ public class BookingControllerAdvice {
     @ExceptionHandler(value = {ReservationNotExistException.class})
     public ResponseEntity<String> handleReservationNotExistException(ReservationNotExistException ex) {
         log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
-        return new ResponseEntity<>(String.format("There are no reservation with email: %s",
+        return new ResponseEntity<>(String.format("There are no reservation for email: %s",
                 ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
     }
@@ -71,5 +71,11 @@ public class BookingControllerAdvice {
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.error("DateTimeParseException: {}", ex.getMessage());
         return new ResponseEntity<>("The request cannot be parsed", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {UnauthorizedException.class})
+    public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
+        log.error("UnauthorizedException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("Unauthorized: %s", ex.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 }
