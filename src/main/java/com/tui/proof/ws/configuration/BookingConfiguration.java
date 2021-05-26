@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
+/**
+ * This is the application configuration, where the beans are defined
+ */
 @Configuration
 public class BookingConfiguration {
 
@@ -20,11 +23,12 @@ public class BookingConfiguration {
     public RequestValidatorFactory requestValidatorFactory(RequestValidator availabilityRequestValidator,
                                                            RequestValidator holderRequestValidator,
                                                            RequestValidator flightRequestValidator) {
-        return new RequestValidatorFactory().setValidators(Map.of(
-                availabilityRequestValidator.getClass(), availabilityRequestValidator,
-                holderRequestValidator.getClass(), holderRequestValidator,
-                flightRequestValidator.getClass(), flightRequestValidator
-        ));
+        return new RequestValidatorFactory().setValidators(
+                Map.of(
+                        availabilityRequestValidator.getClass(), availabilityRequestValidator,
+                        holderRequestValidator.getClass(), holderRequestValidator,
+                        flightRequestValidator.getClass(), flightRequestValidator
+                ));
     }
 
     @Bean

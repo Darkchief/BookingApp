@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Controller interface, here you will find the exposed API
+ *  Interface for the controller, here you will find the exposed api
  */
 public interface BookingProvider {
 
