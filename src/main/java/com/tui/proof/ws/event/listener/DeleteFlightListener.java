@@ -23,7 +23,7 @@ public class DeleteFlightListener {
             log.info("There are no reservations associated with the email {}, unable to remove the flight", email);
         } else {
             if (!reservation.getFlights().removeIf(flight -> flightNumber.equals(flight.getFlightNumber()))) {
-                log.info("There are no flight in the reservation with number {}", flightNumber);
+                log.info("There are no flights in the reservation with number {}", flightNumber);
             }
         }
     }

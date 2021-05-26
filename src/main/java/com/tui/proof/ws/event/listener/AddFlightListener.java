@@ -32,7 +32,7 @@ public class AddFlightListener {
             if(flightToAdd.isPresent()) {
                 reservationMap.computeIfPresent(email, (k, v) -> v).getFlights().add(flightToAdd.get());
             } else {
-                log.info("There are no available flight with number {}", event.getFlightNumber());
+                log.info("There are no available flights with number {}", event.getFlightNumber());
             }
         }
     }

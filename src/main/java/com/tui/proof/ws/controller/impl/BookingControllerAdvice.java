@@ -59,7 +59,7 @@ public class BookingControllerAdvice {
     @ExceptionHandler(value = {ReservationNotExistException.class})
     public ResponseEntity<String> handleReservationNotExistException(ReservationNotExistException ex) {
         log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
-        return new ResponseEntity<>(String.format("There are no reservation for email: %s",
+        return new ResponseEntity<>(String.format("There are no reservations for email: %s",
                 ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
     }
