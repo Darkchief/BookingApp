@@ -5,6 +5,9 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
+/**
+ * This class represents the holder of the reservation
+ */
 @Data
 @Accessors(chain = true)
 public class Holder {

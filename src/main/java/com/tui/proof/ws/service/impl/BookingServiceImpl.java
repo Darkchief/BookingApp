@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Here you will find the core methods implementation
+ */
 @Data
 @Slf4j
 @Service
@@ -48,10 +50,17 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private RequestValidatorFactory validatorFactory;
 
-    private Map<String, Reservation> reservationMap = new HashMap();
+    private Map<String, Reservation> reservationMap = new HashMap<>();
 
     private AvailabilityFlight availabilityFlight = new AvailabilityFlight();
 
+    /**
+     * This method verifies that the user is authorized to use the APIs
+     *
+     * @param loginUsername
+     * @param loginPassword
+     * @return true if authorized, throw UnauthorizedException if not
+     */
     @Override
     public boolean isUserLogged(String loginUsername, String loginPassword) {
         if (username.equals(loginUsername) && password.equals(loginPassword)) {
@@ -62,7 +71,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Flight> checkAvailability(AvailabilityRequest request) {
-        String message = validatorFactory.getValidators().get(AvailabilityRequestValidator.class).validate(request);
+        String message = ((AvailabilityRequestValidator) validatorFactory
+                .getValidators().get(AvailabilityRequestValidator.class)).validate(request);
         if (StringUtils.isNotBlank(message)) {
             throw new AvailabilityRequestNotValidException(message);
         }
@@ -83,8 +93,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void createNewReservation(HolderRequest request) {
-        String message = validatorFactory.getValidators().get(HolderRequestValidator.class).validate(request);
+    public void createReservation(HolderRequest request) {
+        String message = ((HolderRequestValidator) validatorFactory
+                .getValidators().get(HolderRequestValidator.class)).validate(request);
         if (StringUtils.isNotBlank(message)) {
             throw new HolderRequestNotValidException(message);
         }
@@ -97,7 +108,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void addFlight(FlightRequest request) {
-        String message = validatorFactory.getValidators().get(FlightRequestValidator.class).validate(request);
+        String message = ((FlightRequestValidator) validatorFactory
+                .getValidators().get(FlightRequestValidator.class)).validate(request);
         if (StringUtils.isNotBlank(message)) {
             throw new FlightRequestNotValidException(message);
         }
@@ -114,7 +126,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void deleteFlight(FlightRequest request) {
-        String message = validatorFactory.getValidators().get(FlightRequestValidator.class).validate(request);
+        String message = ((FlightRequestValidator) validatorFactory
+                .getValidators().get(FlightRequestValidator.class)).validate(request);
         if (StringUtils.isNotBlank(message)) {
             throw new FlightRequestNotValidException(message);
         }
@@ -169,6 +182,10 @@ public class BookingServiceImpl implements BookingService {
         publisher.publishEvent(event);
     }
 
+    /**
+     * This method checks if the information is still available
+     * 15 minutes after the last call to the checkAvailability API, the information expires
+     */
     private void availabilityFlightExpiration() {
         if (availabilityFlight.getExpirationTime() == null
                 || LocalDateTime.now().isAfter(availabilityFlight.getExpirationTime())) {

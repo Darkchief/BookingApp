@@ -9,6 +9,9 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * This is the controller advice, it will be used for errors handling
+ */
 @Slf4j
 @ControllerAdvice
 public class BookingControllerAdvice {

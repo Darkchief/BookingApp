@@ -8,13 +8,16 @@ import com.tui.proof.ws.model.booking.Reservation;
 
 import java.util.List;
 
+/**
+ * Interface for the service, here you will find the core methods
+ */
 public interface BookingService {
 
     boolean isUserLogged(String username, String password);
 
     List<Flight> checkAvailability(AvailabilityRequest request);
 
-    void createNewReservation(HolderRequest request);
+    void createReservation(HolderRequest request);
 
     void addFlight(FlightRequest request);
 

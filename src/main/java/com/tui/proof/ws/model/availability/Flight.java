@@ -9,6 +9,9 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 
+/**
+ * This class represents a flight
+ */
 @Data
 @Accessors(chain = true)
 public class Flight implements Comparable<Flight> {

@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @Data
 @Accessors(chain = true)

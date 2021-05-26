@@ -63,7 +63,7 @@ public class BookingController implements BookingProvider {
         log.info("Start createReservation method");
         ResponseEntity<Void> response = null;
         if (isUserLogged(httpRequest)) {
-            bookingService.createNewReservation(request);
+            bookingService.createReservation(request);
             response = ResponseEntity.status(HttpStatus.OK).build();
         }
         return response;
