@@ -2,7 +2,7 @@
 FROM adoptopenjdk/openjdk11
 
 # Copy war file
-COPY target/availability-api-1.1.0-SNAPSHOT.jar /availability.war
+COPY target/availability-api-1.1.1-RELEASE.jar /availability.war
 
 # Run the app
 CMD ["java", "-jar", "availability.war"]
