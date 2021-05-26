@@ -23,7 +23,7 @@ public class DeleteReservationListener {
         if (reservationMap.containsKey(email)) {
             event.getReservationMap().remove(email);
         } else {
-            log.info("There are no reservation for email {}", email);
+            log.info("There are no reservations associated with the email {}", email);
         }
     }
 }

@@ -23,7 +23,7 @@ public class AddFlightListener {
         Map<String, Reservation> reservationMap = event.getReservationMap();
 
         if (!reservationMap.containsKey(email)) {
-            log.info("Email {} does not contains a reservation, unable to add the flight", email);
+            log.info("There are no reservations associated with the email {}, unable to add the flight", email);
         } else {
             Optional<Flight> flightToAdd = event.getAvailableFlights().stream()
                     .filter(flight -> event.getFlightNumber().equals(flight.getFlightNumber()))

@@ -28,7 +28,7 @@ public class CheckAvailabilityListener {
     @Async
     @EventListener
     void handleAvailabilityEvent(CheckAvailabilityEvent event) {
-        log.info("Listen to the availabilityEvent");
+        log.info("Listen to the CheckAvailabilityEvent");
         List<Flight> flights = new ArrayList<>();
         try {
             flights = objectMapper.readValue(this.getClass().getResourceAsStream("/flights.json")
