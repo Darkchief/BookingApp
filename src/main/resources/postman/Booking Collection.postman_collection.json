@@ -8,8 +8,22 @@
 		{
 			"name": "checkAvailabilty",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"originAirport\": \"MXP\",\r\n    \"destinationAirport\": \"BGY\",\r\n    \"from\": \"2021-06-30\",\r\n    \"to\": \"2021-07-05\",\r\n    \"paxes\": {\r\n        \"infants\": 0,\r\n        \"children\": 2,\r\n        \"adults\": 1\r\n    }\r\n}",
@@ -70,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"bruno.selmi92@gmail.com\",\r\n    \"flightNumber\": \"405421\"\r\n}",
+					"raw": "{\r\n    \"email\":\"bruno.selmi92@gmail.com\",\r\n    \"flightNumber\": \"120954\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
