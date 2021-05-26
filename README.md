@@ -4,8 +4,10 @@ TUI DX Backend technical Test
 
 The base project uses lombok, so you have to install it. You can use the following guide https://www.baeldung.com/lombok-ide
 
+Use Java 11 and Maven 3.6.3 to build the project
+
 Use docker to run a container with the application image
-- docker build -t book-api.
+- docker build -t book-api .
 - docker run -d -p 9002:9002 rest-api
 
 Test with postman, there is a collection in src / main / resources / postman
