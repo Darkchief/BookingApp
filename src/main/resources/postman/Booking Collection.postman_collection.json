@@ -49,10 +49,21 @@
 			"response": []
 		},
 		{
-			"name": "addReservation",
+			"name": "createReservation",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"holder\" :{\r\n        \"name\": \"Bruno\",\r\n        \"lastName\": \"Selmi\",\r\n        \"address\" : \"Via Zurigo\",\r\n        \"postalCode\" : \"20147\",\r\n        \"country\" : \"Italy\",\r\n        \"email\" : \"bruno.selmi92@gmail.com\",\r\n        \"telephones\" : [\"3245654767, 3476798343\"]\r\n    }\r\n}",
@@ -81,10 +92,21 @@
 			"name": "addFlight",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"bruno.selmi92@gmail.com\",\r\n    \"flightNumber\": \"120954\"\r\n}",
+					"raw": "{\r\n    \"reservationCode\": \"40308\",\r\n    \"flightNumber\": \"405421\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -110,10 +132,21 @@
 			"name": "deleteFlight",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"bruno.selmi92@gmail.com\",\r\n    \"flightNumber\": \"405421\"\r\n}",
+					"raw": "{\r\n    \"reservationCode\":\"40308\",\r\n    \"flightNumber\": \"405421\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -143,7 +176,18 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -154,7 +198,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9002/book/details/bruno.selmi92@gmail.com",
+					"raw": "http://localhost:9002/book/details/40308",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -163,7 +207,7 @@
 					"path": [
 						"book",
 						"details",
-						"bruno.selmi92@gmail.com"
+						"40308"
 					]
 				}
 			},
@@ -173,7 +217,18 @@
 			"name": "deleteReservation",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -184,7 +239,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9002/book/deleteReservation/bruno.selmi92@gmail.com",
+					"raw": "http://localhost:9002/book/deleteReservation/40308",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -193,7 +248,7 @@
 					"path": [
 						"book",
 						"deleteReservation",
-						"bruno.selmi92@gmail.com"
+						"40308"
 					]
 				}
 			},
@@ -203,7 +258,18 @@
 			"name": "confirmReservation",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -214,7 +280,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9002/book/confirmReservation/bruno.selmi92@gmail.com",
+					"raw": "http://localhost:9002/book/confirmReservation/40309",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -223,7 +289,7 @@
 					"path": [
 						"book",
 						"confirmReservation",
-						"bruno.selmi92@gmail.com"
+						"40309"
 					]
 				}
 			},

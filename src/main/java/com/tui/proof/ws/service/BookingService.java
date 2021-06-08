@@ -5,6 +5,7 @@ import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
+import com.tui.proof.ws.model.booking.ReservationResponse;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface BookingService {
 
     List<Flight> checkAvailability(AvailabilityRequest request);
 
-    Long createReservation(HolderRequest request);
+    ReservationResponse createReservation(HolderRequest request);
 
     void addFlight(FlightRequest request);
 

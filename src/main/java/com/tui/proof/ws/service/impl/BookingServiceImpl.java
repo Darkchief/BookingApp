@@ -8,6 +8,7 @@ import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
+import com.tui.proof.ws.model.booking.ReservationResponse;
 import com.tui.proof.ws.service.BookingService;
 import com.tui.proof.ws.validation.RequestValidatorFactory;
 import com.tui.proof.ws.validation.impl.AvailabilityRequestValidator;
@@ -52,7 +53,7 @@ public class BookingServiceImpl implements BookingService {
 
     private Map<Long, Reservation> reservationMap = new HashMap<>();
 
-    private Long lastReservationCode = 0L;
+    private Long lastReservationCode = 40307L;
 
     private AvailabilityFlight availabilityFlight = new AvailabilityFlight();
 
@@ -95,7 +96,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Long createReservation(HolderRequest request) {
+    public ReservationResponse createReservation(HolderRequest request) {
         String message = ((HolderRequestValidator) validatorFactory
                 .getValidators().get(HolderRequestValidator.class)).validate(request);
         if (StringUtils.isNotBlank(message)) {
@@ -108,7 +109,7 @@ public class BookingServiceImpl implements BookingService {
                 .setReservationCode(++lastReservationCode);
         publisher.publishEvent(event);
 
-        return lastReservationCode;
+        return new ReservationResponse().setReservationCode(lastReservationCode);
     }
 
     @Override
@@ -150,11 +151,18 @@ public class BookingServiceImpl implements BookingService {
             throw new ReservationCodeNotValidException("Reservation code must not be blank");
         }
 
-        if (!reservationMap.containsKey(reservationCode)) {
+        Long code;
+        try {
+            code = Long.parseLong(reservationCode);
+        }catch (NumberFormatException ex) {
+            throw new ReservationCodeFormatException("Reservation code must be a numeric value");
+        }
+
+        if (!reservationMap.containsKey(code)) {
             throw new ReservationNotExistException(reservationCode);
         }
 
-        return reservationMap.get(reservationCode);
+        return reservationMap.get(code);
     }
 
     @Override

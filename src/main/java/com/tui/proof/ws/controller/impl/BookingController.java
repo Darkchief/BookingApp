@@ -6,6 +6,7 @@ import com.tui.proof.ws.model.availability.Flight;
 import com.tui.proof.ws.model.booking.FlightRequest;
 import com.tui.proof.ws.model.booking.HolderRequest;
 import com.tui.proof.ws.model.booking.Reservation;
+import com.tui.proof.ws.model.booking.ReservationResponse;
 import com.tui.proof.ws.service.BookingService;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -59,12 +60,12 @@ public class BookingController implements BookingProvider {
      */
     @Override
     @PutMapping(value = "/createReservation")
-    public ResponseEntity<Void> createReservation(HttpServletRequest httpRequest, @RequestBody HolderRequest request) {
+    public ResponseEntity<ReservationResponse> createReservation(HttpServletRequest httpRequest, @RequestBody HolderRequest request) {
         log.info("Start createReservation method");
-        ResponseEntity<Void> response = null;
+        ResponseEntity<ReservationResponse> response = null;
         if (isUserLogged(httpRequest)) {
-            bookingService.createReservation(request);
-            response = ResponseEntity.status(HttpStatus.OK).build();
+            ReservationResponse reservationResponse = bookingService.createReservation(request);
+            response = ResponseEntity.status(HttpStatus.OK).body(reservationResponse);
         }
         return response;
     }

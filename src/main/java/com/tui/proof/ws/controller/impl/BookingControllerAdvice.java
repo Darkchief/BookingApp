@@ -34,7 +34,7 @@ public class BookingControllerAdvice {
 
     @ExceptionHandler(value = {HolderRequestNotValidException.class})
     public ResponseEntity<String> handleHolderRequestNotValidException(HolderRequestNotValidException ex) {
-        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        log.error("HolderRequestNotValidException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
                 ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
@@ -42,15 +42,15 @@ public class BookingControllerAdvice {
 
     @ExceptionHandler(value = {FlightRequestNotValidException.class})
     public ResponseEntity<String> handleFlightRequestNotValidException(FlightRequestNotValidException ex) {
-        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        log.error("FlightRequestNotValidException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
                 ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {ReservationCodeNotValidException.class})
-    public ResponseEntity<String> handleEmailNotValidException(ReservationCodeNotValidException ex) {
-        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+    public ResponseEntity<String> handleReservationCodeNotValidException(ReservationCodeNotValidException ex) {
+        log.error("ReservationCodeNotValidException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
                 ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
@@ -58,21 +58,27 @@ public class BookingControllerAdvice {
 
     @ExceptionHandler(value = {ReservationNotExistException.class})
     public ResponseEntity<String> handleReservationNotExistException(ReservationNotExistException ex) {
-        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
-        return new ResponseEntity<>(String.format("There are no reservations for email: %s",
+        log.error("ReservationNotExistException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("There are no reservations for reservation code: %s",
                 ex.getMessage()),
                 HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {AvailabilityFlightExpiredException.class})
     public ResponseEntity<String> handleAvailabilityFlightExpiredException(AvailabilityFlightExpiredException ex) {
-        log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
+        log.error("AvailabilityFlightExpiredException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("%s", ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {ReservationCodeFormatException.class})
+    public ResponseEntity<String> handleReservationCodeFormatException(ReservationCodeFormatException ex) {
+        log.error("ReservationCodeFormatException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("%s", ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        log.error("DateTimeParseException: {}", ex.getMessage());
+        log.error("HttpMessageNotReadableException: {}", ex.getMessage());
         return new ResponseEntity<>("The request cannot be parsed", HttpStatus.BAD_REQUEST);
     }
 
