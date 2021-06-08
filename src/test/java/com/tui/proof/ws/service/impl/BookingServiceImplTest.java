@@ -26,7 +26,7 @@ class BookingServiceImplTest {
 
         try {
             bookingService.addFlight(new FlightRequest()
-                    .setEmail("mario.rossi@gmail.com")
+                    .setReservationCode("123456789")
                     .setFlightNumber(123456L));
         } catch (AvailabilityFlightExpiredException ex) {
             thrown = true;
@@ -42,7 +42,7 @@ class BookingServiceImplTest {
                 .setExpirationTime(LocalDateTime.now().minusMinutes(14L)));
 
         try {
-            bookingService.confirmReservation("mario.rossi@gmail.com");
+            bookingService.confirmReservation("123456789");
         } catch (ReservationNotExistException ex) {
             thrown = true;
         }

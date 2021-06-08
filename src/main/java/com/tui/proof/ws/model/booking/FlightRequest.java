@@ -7,6 +7,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class FlightRequest {
 
-    private String email;
+    private String reservationCode;
     private Long flightNumber;
 }

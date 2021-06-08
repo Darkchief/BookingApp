@@ -50,7 +50,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private RequestValidatorFactory validatorFactory;
 
-    private Map<String, Reservation> reservationMap = new HashMap<>();
+    private Map<Long, Reservation> reservationMap = new HashMap<>();
+
+    private Long lastReservationCode = 0L;
 
     private AvailabilityFlight availabilityFlight = new AvailabilityFlight();
 
@@ -93,7 +95,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void createReservation(HolderRequest request) {
+    public Long createReservation(HolderRequest request) {
         String message = ((HolderRequestValidator) validatorFactory
                 .getValidators().get(HolderRequestValidator.class)).validate(request);
         if (StringUtils.isNotBlank(message)) {
@@ -102,8 +104,11 @@ public class BookingServiceImpl implements BookingService {
 
         CreateReservationEvent event = new CreateReservationEvent()
                 .setReservationMap(reservationMap)
-                .setHolderData(request);
+                .setHolderData(request)
+                .setReservationCode(++lastReservationCode);
         publisher.publishEvent(event);
+
+        return lastReservationCode;
     }
 
     @Override
@@ -117,7 +122,7 @@ public class BookingServiceImpl implements BookingService {
         availabilityFlightExpiration();
 
         AddFlightEvent event = new AddFlightEvent()
-                .setEmail(request.getEmail())
+                .setReservationCode(Long.parseLong(request.getReservationCode()))
                 .setAvailableFlights(availabilityFlight.getFlights())
                 .setReservationMap(reservationMap)
                 .setFlightNumber(request.getFlightNumber());
@@ -133,50 +138,64 @@ public class BookingServiceImpl implements BookingService {
         }
 
         DeleteFlightEvent event = new DeleteFlightEvent()
-                .setEmail(request.getEmail())
+                .setReservationCode(Long.parseLong(request.getReservationCode()))
                 .setReservationMap(reservationMap)
                 .setFlightNumber(request.getFlightNumber());
         publisher.publishEvent(event);
     }
 
     @Override
-    public Reservation retrieveReservationDetails(String email) {
-        if (StringUtils.isBlank(email)) {
-            throw new EmailNotValidException("Email must not be blank");
+    public Reservation retrieveReservationDetails(String reservationCode) {
+        if (StringUtils.isBlank(reservationCode)) {
+            throw new ReservationCodeNotValidException("Reservation code must not be blank");
         }
 
-        if (!reservationMap.containsKey(email)) {
-            throw new ReservationNotExistException(email);
+        if (!reservationMap.containsKey(reservationCode)) {
+            throw new ReservationNotExistException(reservationCode);
         }
 
-        return reservationMap.get(email);
+        return reservationMap.get(reservationCode);
     }
 
     @Override
-    public void deleteReservation(String email) {
-        if (StringUtils.isBlank(email)) {
-            throw new EmailNotValidException("Email must not be blank");
+    public void deleteReservation(String reservationCode) {
+        if (StringUtils.isBlank(reservationCode)) {
+            throw new ReservationCodeNotValidException("Email must not be blank");
+        }
+        Long code;
+        try {
+            code = Long.parseLong(reservationCode);
+        }catch (NumberFormatException ex) {
+            throw new ReservationCodeFormatException("Reservation code must be a numeric value");
         }
 
         DeleteReservationEvent event = new DeleteReservationEvent()
-                .setEmail(email)
+                .setReservationCode(code)
                 .setReservationMap(reservationMap);
         publisher.publishEvent(event);
     }
 
     @Override
-    public void confirmReservation(String email) {
-        if (StringUtils.isBlank(email)) {
-            throw new EmailNotValidException("Email must not be blank");
+    public void confirmReservation(String reservationCode) {
+        if (StringUtils.isBlank(reservationCode)) {
+            throw new ReservationCodeNotValidException("Reservation code must not be blank");
         }
-        if (!reservationMap.containsKey(email)) {
-            throw new ReservationNotExistException(email);
+
+        Long code;
+        try {
+            code = Long.parseLong(reservationCode);
+        }catch (NumberFormatException ex) {
+            throw new ReservationCodeFormatException("Reservation code must be a numeric value");
+        }
+
+        if (!reservationMap.containsKey(code)) {
+            throw new ReservationNotExistException(reservationCode);
         }
 
         availabilityFlightExpiration();
 
         ConfirmReservationEvent event = new ConfirmReservationEvent()
-                .setEmail(email)
+                .setReservationCode(code)
                 .setReservationMap(reservationMap)
                 .setAvailabilityFlight(availabilityFlight);
         publisher.publishEvent(event);

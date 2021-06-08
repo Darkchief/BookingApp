@@ -11,7 +11,7 @@ import java.util.Map;
 @Accessors(chain = true)
 public class DeleteFlightEvent {
 
-    private String email;
+    private Long reservationCode;
     private Long flightNumber;
-    private Map<String, Reservation> reservationMap;
+    private Map<Long, Reservation> reservationMap;
 }

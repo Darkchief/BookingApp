@@ -17,15 +17,15 @@ public interface BookingService {
 
     List<Flight> checkAvailability(AvailabilityRequest request);
 
-    void createReservation(HolderRequest request);
+    Long createReservation(HolderRequest request);
 
     void addFlight(FlightRequest request);
 
     void deleteFlight(FlightRequest request);
 
-    Reservation retrieveReservationDetails(String email);
+    Reservation retrieveReservationDetails(String reservationCode);
 
-    void deleteReservation(String email);
+    void deleteReservation(String reservationCode);
 
-    void confirmReservation(String email);
+    void confirmReservation(String reservationCode);
 }

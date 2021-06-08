@@ -48,8 +48,8 @@ public class BookingControllerAdvice {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {EmailNotValidException.class})
-    public ResponseEntity<String> handleEmailNotValidException(EmailNotValidException ex) {
+    @ExceptionHandler(value = {ReservationCodeNotValidException.class})
+    public ResponseEntity<String> handleEmailNotValidException(ReservationCodeNotValidException ex) {
         log.error("AvailabilityRequestNotValidException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Some parameters in the request are not correct, error: %s",
                 ex.getMessage()),

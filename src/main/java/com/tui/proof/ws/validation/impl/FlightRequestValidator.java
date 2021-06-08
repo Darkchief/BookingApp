@@ -12,8 +12,15 @@ public class FlightRequestValidator implements RequestValidator<FlightRequest> {
 
         StringBuilder builder = new StringBuilder();
 
-        if (StringUtils.isBlank(request.getEmail())) {
-            builder.append("\n- The email must not be null");
+        String reservationCode = request.getReservationCode();
+        if (StringUtils.isBlank(reservationCode)) {
+            builder.append("\n- The reservation code must not be null");
+        } else {
+            try {
+                Long.parseLong(reservationCode);
+            } catch(NumberFormatException ex) {
+                builder.append("\n- The reservation code must be a numeric value");
+            }
         }
         if (request.getFlightNumber() == null) {
             builder.append("\n- The flight number name must not be null");

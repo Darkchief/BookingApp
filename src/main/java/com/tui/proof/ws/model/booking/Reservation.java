@@ -12,5 +12,6 @@ import java.util.TreeSet;
 public class Reservation {
 
     private Holder holder;
+    private ReservationStatus status;
     private Set<Flight> flights = new TreeSet<>();
 }

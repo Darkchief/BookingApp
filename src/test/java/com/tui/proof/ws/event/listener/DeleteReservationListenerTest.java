@@ -15,22 +15,22 @@ class DeleteReservationListenerTest {
 
     @Test
     void handleDeleteReservationEvent() {
-        String testMail = "test.mail@gmail.com";
+        Long reservationCode = 123456789L;
         DeleteReservationListener listener = new DeleteReservationListener();
 
         DeleteReservationEvent event = new DeleteReservationEvent()
-                .setEmail(testMail)
-                .setReservationMap(createReservationMap(testMail));
+                .setReservationCode(reservationCode)
+                .setReservationMap(createReservationMap(reservationCode));
 
-        assertTrue(event.getReservationMap().containsKey(testMail));
+        assertTrue(event.getReservationMap().containsKey(reservationCode));
         listener.handleDeleteReservationEvent(event);
-        assertFalse(event.getReservationMap().containsKey(testMail));
+        assertFalse(event.getReservationMap().containsKey(reservationCode));
     }
 
-    private Map<String, Reservation> createReservationMap(String mail) {
-        Map<String, Reservation> map = new HashMap<>();
-        map.put(mail, new Reservation());
-        map.put("mario.rossi@gmail.com", new Reservation().setHolder(new Holder().setEmail("mario.rossi@gmail.com")));
+    private Map<Long, Reservation> createReservationMap(Long reservationCode) {
+        Map<Long, Reservation> map = new HashMap<>();
+        map.put(reservationCode, new Reservation());
+        map.put(87L, new Reservation().setHolder(new Holder().setEmail("mario.rossi@gmail.com")));
         return map;
     }
 }

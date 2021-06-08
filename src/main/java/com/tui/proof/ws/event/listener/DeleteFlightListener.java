@@ -15,12 +15,12 @@ public class DeleteFlightListener {
     @EventListener
     void handleDeleteFlightEvent(DeleteFlightEvent event) {
         log.info("Listen to the deleteFlightEvent");
-        String email = event.getEmail();
-        Reservation reservation = event.getReservationMap().get(email);
+        Long reservationCode = event.getReservationCode();
+        Reservation reservation = event.getReservationMap().get(reservationCode);
         Long flightNumber = event.getFlightNumber();
 
         if (reservation == null) {
-            log.info("There are no reservations associated with the email {}, unable to remove the flight", email);
+            log.info("There are no reservations associated with the reservation code {}, unable to remove the flight", reservationCode);
         } else {
             if (!reservation.getFlights().removeIf(flight -> flightNumber.equals(flight.getFlightNumber()))) {
                 log.info("There are no flights in the reservation with number {}", flightNumber);

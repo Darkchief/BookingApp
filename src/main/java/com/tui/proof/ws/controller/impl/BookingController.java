@@ -52,7 +52,7 @@ public class BookingController implements BookingProvider {
     }
 
     /**
-     * Create a new booking associated with the email
+     * Create a new booking associated with a reservationCode
      *
      * @param httpRequest Request to verify that the user is authorized to use the API
      * @param request     that contains the details of the customer who wants to book
@@ -73,7 +73,7 @@ public class BookingController implements BookingProvider {
      * Add a flight to a reservation
      *
      * @param httpRequest Request to verify that the user is authorized to use the API
-     * @param request     which contains the email of the booking and the flight to add to the booking
+     * @param request     which contains the reservationCode of the booking and the flight to add to the booking
      */
     @Override
     @PutMapping(value = "/addFlight")
@@ -91,7 +91,7 @@ public class BookingController implements BookingProvider {
      * Remove a flight from a reservation
      *
      * @param httpRequest Request to verify that the user is authorized to use the API
-     * @param request     which contains the email of the booking and the flight to remove from the booking
+     * @param request     which contains the reservationCode of the booking and the flight to remove from the booking
      */
     @Override
     @DeleteMapping(value = "/deleteFlight")
@@ -106,55 +106,55 @@ public class BookingController implements BookingProvider {
     }
 
     /**
-     * API that returns the booking details associated with the email
+     * API that returns the booking details associated with the reservationCode
      *
      * @param httpRequest Request to verify that the user is authorized to use the API
-     * @param email       the reservation identifier
+     * @param reservationCode       the reservation identifier
      * @return The reservation details
      */
     @Override
-    @GetMapping(value = "/details/{email}")
-    public ResponseEntity<Reservation> reservationDetails(HttpServletRequest httpRequest, @PathVariable("email") String email) {
+    @GetMapping(value = "/details/{reservationCode}")
+    public ResponseEntity<Reservation> reservationDetails(HttpServletRequest httpRequest, @PathVariable("reservationCode") String reservationCode) {
         log.info("Start details method");
         ResponseEntity<Reservation> response = null;
         if (isUserLogged(httpRequest)) {
-            Reservation reservation = bookingService.retrieveReservationDetails(email);
+            Reservation reservation = bookingService.retrieveReservationDetails(reservationCode);
             response = ResponseEntity.status(HttpStatus.OK).body(reservation);
         }
         return response;
     }
 
     /**
-     * Delete the reservation associated with the email
+     * Delete the reservation associated with the reservationCode
      *
      * @param httpRequest Request to verify that the user is authorized to use the API
-     * @param email       the reservation identifier
+     * @param reservationCode       the reservation identifier
      */
     @Override
-    @DeleteMapping(value = "/deleteReservation/{email}")
-    public ResponseEntity<Void> deleteReservation(HttpServletRequest httpRequest, @PathVariable("email") String email) {
+    @DeleteMapping(value = "/deleteReservation/{reservationCode}")
+    public ResponseEntity<Void> deleteReservation(HttpServletRequest httpRequest, @PathVariable("reservationCode") String reservationCode) {
         log.info("Start deleteReservation method");
         ResponseEntity<Void> response = null;
         if (isUserLogged(httpRequest)) {
-            bookingService.deleteReservation(email);
+            bookingService.deleteReservation(reservationCode);
             response = ResponseEntity.status(HttpStatus.OK).build();
         }
         return response;
     }
 
     /**
-     * Confirm the reservation associated with the email
+     * Confirm the reservation associated with the reservationCode
      *
      * @param httpRequest Request to verify that the user is authorized to use the API
-     * @param email       the reservation identifier
+     * @param reservationCode       the reservation identifier
      */
     @Override
-    @PostMapping(value = "/confirmReservation/{email}")
-    public ResponseEntity<Void> confirmReservation(HttpServletRequest httpRequest, @PathVariable("email") String email) {
-        log.info("Start confirmReservatiom method");
+    @PostMapping(value = "/confirmReservation/{reservationCode}")
+    public ResponseEntity<Void> confirmReservation(HttpServletRequest httpRequest, @PathVariable("reservationCode") String reservationCode) {
+        log.info("Start confirmReservation method");
         ResponseEntity<Void> response = null;
         if (isUserLogged(httpRequest)) {
-            bookingService.confirmReservation(email);
+            bookingService.confirmReservation(reservationCode);
             response = ResponseEntity.status(HttpStatus.OK).build();
         }
         return response;

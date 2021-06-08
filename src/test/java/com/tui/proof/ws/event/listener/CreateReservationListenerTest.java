@@ -14,16 +14,17 @@ class CreateReservationListenerTest {
 
     @Test
     void handleCreateReservationEvent() {
-        String testMail = "test.mail@gmail.com";
+        Long reservationCode = 123456789L;
         CreateReservationListener listener = new CreateReservationListener();
 
         CreateReservationEvent event = new CreateReservationEvent()
                 .setHolderData(new HolderRequest()
-                        .setHolder(new Holder().setEmail(testMail)))
-                .setReservationMap(new HashMap<>());
+                        .setHolder(new Holder().setEmail("mario.rossi@gmail.com")))
+                .setReservationMap(new HashMap<>())
+                .setReservationCode(reservationCode);
 
         listener.handleCreateReservationEvent(event);
-        assertTrue(event.getReservationMap().containsKey(testMail));
+        assertTrue(event.getReservationMap().containsKey(reservationCode));
         assertEquals(event.getReservationMap().size(), 1);
     }
 }

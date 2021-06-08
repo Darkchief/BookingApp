@@ -11,7 +11,7 @@ import java.util.Map;
 @Accessors(chain = true)
 public class ConfirmReservationEvent {
 
-    private String email;
-    private Map<String, Reservation> reservationMap;
+    private Long reservationCode;
+    private Map<Long, Reservation> reservationMap;
     private AvailabilityFlight availabilityFlight;
 }

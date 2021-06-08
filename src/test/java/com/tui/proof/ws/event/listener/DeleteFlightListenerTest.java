@@ -17,30 +17,30 @@ class DeleteFlightListenerTest {
 
     @Test
     void handleDeleteFlightEvent() {
-        String testMail = "test.mail@gmail.com";
+        Long reservationCode = 123456789L;
         Long flightNumber = 123456L;
         DeleteFlightEvent event = new DeleteFlightEvent()
-                .setEmail(testMail)
+                .setReservationCode(reservationCode)
                 .setFlightNumber(flightNumber)
-                .setReservationMap(createReservationMap(testMail, flightNumber));
+                .setReservationMap(createReservationMap(reservationCode, flightNumber));
 
         DeleteFlightListener listener = new DeleteFlightListener();
 
         Flight flight = new Flight().setFlightNumber(flightNumber);
-        assertTrue(event.getReservationMap().get(testMail).getFlights().contains(flight));
+        assertTrue(event.getReservationMap().get(reservationCode).getFlights().contains(flight));
 
         listener.handleDeleteFlightEvent(event);
 
-        assertFalse(event.getReservationMap().get(testMail).getFlights().contains(flight));
+        assertFalse(event.getReservationMap().get(reservationCode).getFlights().contains(flight));
     }
 
-    private Map<String, Reservation> createReservationMap(String mail, Long flightNumber) {
+    private Map<Long, Reservation> createReservationMap(Long reservationCode, Long flightNumber) {
         Set<Flight> flights = new TreeSet<>();
         flights.add(new Flight().setFlightNumber(125521L));
         flights.add(new Flight().setFlightNumber(flightNumber));
 
-        Map<String, Reservation> map = new HashMap<>();
-        map.put(mail, new Reservation().setFlights(flights));
+        Map<Long, Reservation> map = new HashMap<>();
+        map.put(reservationCode, new Reservation().setFlights(flights));
 
         return map;
     }

@@ -12,6 +12,7 @@ import java.util.Map;
 @Accessors(chain = true)
 public class CreateReservationEvent {
 
-    private Map<String, Reservation> reservationMap;
+    private Map<Long, Reservation> reservationMap;
     private HolderRequest holderData;
+    private Long reservationCode;
 }

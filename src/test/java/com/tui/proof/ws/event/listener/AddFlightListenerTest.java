@@ -17,11 +17,11 @@ class AddFlightListenerTest {
 
     @Test
     void handleAddFlightEventTest() {
-        String validEmail = "mario.rossi@gmail.com";
-        String notValidEmail = "a.b@c.d";
+        Long validReservationCode = 123456789L;
+        Long notValidReservationCode = 87L;
 
         AddFlightEvent event = new AddFlightEvent()
-                .setEmail(notValidEmail)
+                .setReservationCode(notValidReservationCode)
                 .setFlightNumber(123456L)
                 .setReservationMap(createReservationMap())
                 .setAvailableFlights(List.of(new Flight().setFlightNumber(123456L)));
@@ -30,12 +30,12 @@ class AddFlightListenerTest {
 
         // Call listener
         listener.handleAddFlightEvent(event);
-        Reservation reservation = event.getReservationMap().get(validEmail);
+        Reservation reservation = event.getReservationMap().get(validReservationCode);
         assertNotNull(reservation);
         assertFalse(reservation.getFlights().stream()
                 .anyMatch(flight -> event.getFlightNumber().equals(flight.getFlightNumber())));
 
-        event.setEmail(validEmail);
+        event.setReservationCode(validReservationCode);
         // Call Listener
         listener.handleAddFlightEvent(event);
         assertTrue(reservation.getFlights().stream()
@@ -43,9 +43,9 @@ class AddFlightListenerTest {
 
     }
 
-    private Map<String, Reservation> createReservationMap() {
-        Map<String, Reservation> map = new HashMap<>();
-        map.put("mario.rossi@gmail.com", new Reservation()
+    private Map<Long, Reservation> createReservationMap() {
+        Map<Long, Reservation> map = new HashMap<>();
+        map.put(123456789L, new Reservation()
                 .setHolder(new Holder()
                         .setName("Mario")
                         .setLastName("Rossi")

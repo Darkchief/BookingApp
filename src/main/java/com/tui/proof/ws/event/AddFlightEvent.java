@@ -12,8 +12,8 @@ import java.util.Map;
 @Accessors(chain = true)
 public class AddFlightEvent {
 
-    private String email;
+    private Long reservationCode;
     private Long flightNumber;
     private List<Flight> availableFlights;
-    private Map<String, Reservation> reservationMap;
+    private Map<Long, Reservation> reservationMap;
 }

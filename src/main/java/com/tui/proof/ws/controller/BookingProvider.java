@@ -23,10 +23,10 @@ public interface BookingProvider {
 
     ResponseEntity<Void> deleteFlight(HttpServletRequest httpRequest, FlightRequest request);
 
-    ResponseEntity<Reservation> reservationDetails(HttpServletRequest httpRequest, String email);
+    ResponseEntity<Reservation> reservationDetails(HttpServletRequest httpRequest, String reservationCode);
 
-    ResponseEntity<Void> deleteReservation(HttpServletRequest httpRequest, String email);
+    ResponseEntity<Void> deleteReservation(HttpServletRequest httpRequest, String reservationCode);
 
-    ResponseEntity<Void> confirmReservation(HttpServletRequest httpRequest, String email);
+    ResponseEntity<Void> confirmReservation(HttpServletRequest httpRequest, String reservationCode);
 
 }

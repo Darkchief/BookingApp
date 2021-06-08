@@ -17,13 +17,13 @@ public class DeleteReservationListener {
     @EventListener
     void handleDeleteReservationEvent(DeleteReservationEvent event) {
         log.info("Listen to the deleteReservationEvent");
-        String email = event.getEmail();
-        Map<String, Reservation> reservationMap = event.getReservationMap();
+        Long reservationCode = event.getReservationCode();
+        Map<Long, Reservation> reservationMap = event.getReservationMap();
 
-        if (reservationMap.containsKey(email)) {
-            event.getReservationMap().remove(email);
+        if (reservationMap.containsKey(reservationCode)) {
+            event.getReservationMap().remove(reservationCode);
         } else {
-            log.info("There are no reservations associated with the email {}", email);
+            log.info("There are no reservations associated with the reservation code {}", reservationCode);
         }
     }
 }
