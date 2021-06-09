@@ -1,0 +1,286 @@
+openapi: 3.0.1
+info:
+  title: Booking API
+  description: The list of all APIs
+  version: '1.0'
+servers:
+  - url: 'http://localhost:9002'
+paths:
+  /book/checkAvailability:
+    post:
+      description: Retrieve all the available flights
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                originAirport:
+                  type: string
+                from:
+                  type: string
+                to:
+                  type: string
+                paxes:
+                  type: object
+                  properties:
+                    infants:
+                      type: integer
+                    children:
+                      type: integer
+                    adults:
+                      type: integer
+                destinationAirport:
+                  type: string
+            examples:
+              '0':
+                value: "{\r\n    \"originAirport\": \"MXP\",\r\n    \"destinationAirport\": \"BGY\",\r\n    \"from\": \"2021-06-30\",\r\n    \"to\": \"2021-07-05\",\r\n    \"paxes\": {\r\n        \"infants\": 0,\r\n        \"children\": 2,\r\n        \"adults\": 1\r\n    }\r\n}"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"company":"Ryanair","flightNumber":405421,"date":"2021-05-24","hour":"07:35","price":{"amount":150.00,"currency":"EUR"}},{"company":"EasyJet","flightNumber":120954,"date":"2021-05-24","hour":"10:22","price":{"amount":156.45,"currency":"EUR"}},{"company":"Lufthansa","flightNumber":325677,"date":"2021-05-24","hour":"07:41","price":{"amount":123456.65,"currency":"EUR"}},{"company":"Qatar
+                    Airways","flightNumber":8776564,"date":"2021-05-24","hour":"05:41","price":{"amount":123456.65,"currency":"EUR"}},{"company":"United
+                    Airlines","flightNumber":223144,"date":"2021-05-24","hour":"08:23","price":{"amount":123456.65,"currency":"EUR"}},{"company":"Singapore
+                    Airlines","flightNumber":123456,"date":"2021-05-24","hour":"09:00","price":{"amount":123456.65,"currency":"EUR"}}]
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
+
+  /book/createReservation:
+    put:
+      description: Create a new empty reservation
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                holder:
+                  type: object
+                  properties:
+                    lastName:
+                      type: string
+                    country:
+                      type: string
+                    address:
+                      type: string
+                    postalCode:
+                      type: string
+                    name:
+                      type: string
+                    telephones:
+                      type: array
+                      items:
+                        type: string
+                    email:
+                      type: string
+            examples:
+              '0':
+                value: "{\r\n    \"holder\" :{\r\n        \"name\": \"Bruno\",\r\n        \"lastName\": \"Selmi\",\r\n        \"address\" : \"Via Zurigo\",\r\n        \"postalCode\" : \"20147\",\r\n        \"country\" : \"Italy\",\r\n        \"email\" : \"bruno.selmi92@gmail.com\",\r\n        \"telephones\" : [\"3245654767, 3476798343\"]\r\n    }\r\n}"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservationCode:
+                    type: integer
+              examples:
+                '0':
+                  value: '{"reservationCode":40308}'
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
+
+  /book/addFlight:
+    put:
+      description: Add a flight to a reservation
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservationCode:
+                  type: string
+                flightNumber:
+                  type: string
+            examples:
+              '0':
+                value: "{\r\n    \"reservationCode\": \"40308\",\r\n    \"flightNumber\": \"405421\"\r\n}"
+      responses:
+        '200':
+          description: Ok
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
+
+  /book/deleteFlight/:
+    delete:
+      description: Delete a flight from a reservation
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      responses:
+        '200':
+          description: Ok
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
+
+  /book/details/{reservationCode}:
+    get:
+      description: Retrieve all the details about the reservation associated with the reservationCode
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  holder:
+                    type: object
+                    properties:
+                      lastName:
+                        type: string
+                      country:
+                        type: string
+                      address:
+                        type: string
+                      postalCode:
+                        type: string
+                      name:
+                        type: string
+                      telephones:
+                        type: array
+                        items:
+                          type: string
+                      email:
+                        type: string
+                  flights:
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: >-
+                    {"holder":{"name":"Bruno","lastName":"Selmi","address":"Via
+                    Zurigo","postalCode":"20147","country":"Italy","email":"bruno.selmi92@gmail.com","telephones":["3245654767,
+                    3476798343"]},"status":"IN_PROGRESS","flights":[]}
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
+
+  /book/deleteReservation/{reservationCode}:
+    delete:
+      description: Delete a reservation associated with the reservationCode
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      responses:
+        '200':
+          description: Ok
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
+
+  /book/confirmReservation/{reservationCode}:
+    post:
+      description: Confirm the data if the reservation elements are all valid
+      parameters:
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: password
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: admin
+      responses:
+        '200':
+          description: Ok
+      servers:
+        - url: 'http://localhost:9002'
+    servers:
+      - url: 'http://localhost:9002'
