@@ -21,3 +21,10 @@ The base URL is http://localhost:9002/book, after which there are the following 
 - /details/{email}: Returns the details of the reservation associated with the email
 - /deleteReservation/{email}: delete the reservation associated with the email
 - /confirmReservation/{email}: confirms the reservation if the data is still valid
+
+Technical choices:
+- Chose to use the java configuration to have control over certain elements
+- Chose to handle exceptions through controller advice for better code cleansing and better reading
+- Preferred to use a validation factory to collect the main validations
+- Not being able to add external dependencies, the authorization management has been delegated to a method that is 
+  called for each exposed Api
